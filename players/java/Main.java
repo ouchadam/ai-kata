@@ -10,7 +10,7 @@ public class Main {
         List<String> available = new ArrayList<>();
 
         for (int i = 0; i < board.size(); i++) {
-            if (board.get(i).equals("0")) {
+            if (board.get(i).equals("-")) {
                 available.add(String.valueOf(i));
             }
         }

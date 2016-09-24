@@ -16,4 +16,8 @@ Player.prototype.makeMove = function(board) {
   });
 }
 
+Player.prototype.getName = function() {
+  return this.conf.name;
+}
+
 module.exports = Player;

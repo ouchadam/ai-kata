@@ -1,3 +1,5 @@
+const UNPLAYED = '-';
+
 const winningMoves = [
   [0, 1 ,2],
   [3, 4, 5],
@@ -12,7 +14,11 @@ const winningMoves = [
 ];
 
 function Board() {
-    this.state = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  this.state = [
+    UNPLAYED, UNPLAYED, UNPLAYED,
+    UNPLAYED, UNPLAYED, UNPLAYED,
+    UNPLAYED, UNPLAYED, UNPLAYED
+  ];
 }
 
 Board.prototype.getState = function() {
@@ -20,7 +26,6 @@ Board.prototype.getState = function() {
 }
 
 Board.prototype.play = function(move) {
-  console.log(move.position);
   var self = this;
   validateMove(move, self);
   playMove(move, self);
@@ -32,7 +37,7 @@ function validateMove(move, self) {
   if (movePosition > self.state.length || movePosition < 0) {
     fail(move, "Invalid position");
   }
-  if (self.state[movePosition] != 0) {
+  if (self.state[movePosition] !== UNPLAYED) {
     fail(move, "Tried to play index at already played position");
   }
 }
@@ -58,7 +63,7 @@ function checkBoard(playerKey, self) {
     }
   }
 
-  if (self.state.indexOf(0) != -1) {
+  if (self.state.indexOf(UNPLAYED) != -1) {
     return {
         type: "continue"
     };

@@ -1,6 +1,6 @@
 var board = process.argv[2].split(',');
 
-var filterPlayed = (each) => each.item === '0';
+var filterPlayed = (each) => each.item === '-';
 var mapToIndex = function(each, index) { return { index: index, item: each } };
 
 var available = board.map(mapToIndex).filter(filterPlayed);
