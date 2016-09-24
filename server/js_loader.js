@@ -5,5 +5,5 @@ module.exports = {
 var command = require('./command').run;
 
 function load(path, board) {
-  return command("node", [ path ]);
+  return command("node", [ path, board.getState().toString() ]);
 }

@@ -7,7 +7,6 @@ public class Main {
 
     public static void main(String[] args) {
         List<String> board = Arrays.asList(args[0].split(","));
-
         List<String> available = new ArrayList<>();
 
         for (int i = 0; i < board.size(); i++) {

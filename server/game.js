@@ -1,16 +1,14 @@
-
-var playersLoader = require('./players_loader').load;
-var getMove = require('./move_maker').getMove;
-
+var confLoader = require('./conf_loader').load;
 var Board = require('./board');
+var Player = require('./player');
 
-playersLoader().then(onLoaded).then(function(result) {
+confLoader().then(onLoaded).then(function(result) {
   console.log(result);
 }).catch(console.log);
 
-function onLoaded(loadedPlayers) {
-  var p1 = createPlayer(loadedPlayers[0], "O");
-  var p2 = createPlayer(loadedPlayers[0], "X");
+function onLoaded(confs) {
+  var p1 = new Player(confs[1], "O");
+  var p2 = new Player(confs[1], "X");
   return playGame(p1, p2);
 }
 
@@ -46,19 +44,4 @@ function getNextPlayer(currentPlayer, playerCount) {
   } else {
     return currentPlayer + 1;
   }
-}
-
-function createPlayer(loadedPlayer, playerKey) {
-  return {
-    makeMove: function(board) {
-      return getMove(loadedPlayer, board)
-      .then(function(movePosition) {
-        return Promise.resolve( {
-          position: movePosition,
-          playerKey: playerKey
-        });
-      });
-    },
-    name: loadedPlayer.name
-  };
 }
