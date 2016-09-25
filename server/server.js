@@ -1,28 +1,42 @@
+var confLoader = require('./conf_loader').load;
+var Game = require('./game');
+var Player = require('./player');
 
-// init game
-var loader = require('./loader').load;
+confLoader().then(createGames).then(function(result) {
+  result.forEach(each => {
+    console.log(each.players[0].conf.name + ' vs ' + each.players[1].conf.name);
 
-loader().then(onLoaded);
+    var boardState = each.board.getState();
+    console.log(boardState.slice(0, 3));
+    console.log(boardState.slice(3, 6));
+    console.log(boardState.slice(6, 9));
 
-function onLoaded(players) {
-  console.log(players);
+    if (each.type === "win") {
+      console.log("Winner: " + each.winner.conf.name);
+    }
 
+    if (each.type === "draw") {
+      console.log("It's a draw!");
+    }
 
-  players.forEach
+    console.log('');
+  });
+}).catch(console.log);
 
-  run_cmd( "hostname", [], function(text) { console.log (text) });
+function createGames(confs) {
+  var matches = [];
+  for (var i = 0; i < confs.length; i++) {
+    for (var j = i+1; j < confs.length; j++) {
+      matches.push(play(confs[i], confs[j]));
+    }
+  }
+
+  return Promise.all(matches);
 }
 
-
-
-// start game
-
-
-function run_cmd(cmd, args, callBack ) {
-    var spawn = require('child_process').spawn;
-    var child = spawn(cmd, args);
-    var resp = "";
-
-    child.stdout.on('data', function (buffer) { resp += buffer.toString() });
-    child.stdout.on('end', function() { callBack (resp) });
-} // ()
+function play(conf1, conf2) {
+  var game = new Game();
+  var p1 = new Player(conf1, "O");
+  var p2 = new Player(conf2, "X");
+  return game.play(p1, p2);
+}

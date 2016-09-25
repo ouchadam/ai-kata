@@ -1,30 +1,8 @@
-var confLoader = require('./conf_loader').load;
 var Board = require('./board');
-var Player = require('./player');
 
-confLoader().then(onLoaded).then(function(result) {
-  var boardState = result.board.getState();
-  console.log(boardState.slice(0, 3));
-  console.log(boardState.slice(3, 6));
-  console.log(boardState.slice(6, 9));
+function Game() {}
 
-  if (result.type === "win") {
-    console.log("Winner: " + result.winner.conf.name);
-  }
-
-  if (result.type === "draw") {
-    console.log("It's a draw!");
-  }
-
-}).catch(console.log);
-
-function onLoaded(confs) {
-  var p1 = new Player(confs[0], "O");
-  var p2 = new Player(confs[1], "X");
-  return playGame(p1, p2);
-}
-
-function playGame(playerOne, playerTwo, board) {
+Game.prototype.play = function(playerOne, playerTwo) {
   var players = [playerOne, playerTwo];
   var board = new Board();
   return loop(board, players, 0);
@@ -67,3 +45,5 @@ function getNextPlayer(currentPlayer, playerCount) {
     return currentPlayer + 1;
   }
 }
+
+module.exports = Game;
