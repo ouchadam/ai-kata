@@ -41,6 +41,17 @@ var notifyScore = function(data) {
   io.emit('score', data);
 }
 
+function sortScores(scoreboard) {
+  var sort = [];
+
+  for (var key in scoreboard) {
+    sort.push([key, scoreboard[key]]);
+  }
+  return sort.sort((a, b) => {
+    return b[1] - a[1];
+  });
+}
+
 io.sockets.on('connection', function (socket) {
   if (cache.boards) {
     notifyClient(cache.boards);
@@ -73,18 +84,14 @@ function handleResult(results) {
     }
     updateScore(each.players[0].conf, 0);
     updateScore(each.players[1].conf, 0);
-
-    // printResult(each);
   });
-  console.log(scoreboard);
-  notifyScore(scoreboard);
+  notifyScore(sortScores(scoreboard));
 }
 
 function updateScore(conf, amount) {
   if (!scoreboard[conf.name]) {
     scoreboard[conf.name] = 0;
   }
-
   scoreboard[conf.name] = scoreboard[conf.name] + amount;
 }
 

@@ -7,15 +7,17 @@
     var socket = io();
 
     socket.on('score', function(score) {
-      // TODO
-      document.getElementById("scoreboard");
       console.log(score);
+      document.getElementById("scoreboard").innerHTML = '';
+      score.forEach(each => {
+        document.getElementById("scoreboard").innerHTML += each[0] + " : " + each[1] + "<br>";
+      });
     });
     </script>
   </head>
 
   <body>
-    scoreboard
+    <h1>scoreboard</h1>
     <div id="scoreboard"></div>
   </body>
 
