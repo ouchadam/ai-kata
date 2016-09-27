@@ -1,10 +1,32 @@
 var MultiTicTacToe = require('./multitictactoe');
 var multiTicTacToe = new MultiTicTacToe();
 
+var app = require('express')();
+var express = require('express');
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
+app.use("/public", express.static(__dirname + '/public'));
+app.get('/', function(req, res){
+  res.sendFile(__dirname + '/public/index.html');
+});
+app.get('/start', function (req, res) {
+  setTimeout(trigger, 0);
+});
+
+http.listen(3001, function(){
+  console.log('listening on *:3001');
+});
+
+var notifyClient = function(data) {
+  io.emit('message', data);
+}
+
+io.sockets.on('start', function (socket) {
+  // todo
+});
 
 // update player confs via github
-
-setTimeout(trigger, 0);
 
 function trigger() {
   multiTicTacToe.play()
@@ -14,7 +36,7 @@ function trigger() {
 }
 
 function reschedule() {
-  setTimeout(trigger, 10000);
+  setTimeout(trigger, 5000);
 }
 
 function handleResult(result) {
@@ -41,4 +63,5 @@ function printResult(gameResult) {
     console.log("It's a draw!");
   }
   console.log('');
+  notifyClient(gameResult);
 }
