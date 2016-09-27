@@ -31,12 +31,13 @@ io.sockets.on('start', function (socket) {
 function trigger() {
   multiTicTacToe.play()
     .then(handleResult)
-    .catch(console.log)
-    .then(reschedule);
+    .catch(console.log);
 }
 
-function handleResult(result) {
-  result.forEach(each => {
+function handleResult(results) {
+  notifyClient(results);
+
+  results.forEach(each => {
     printResult(each);
   });
 }
@@ -59,5 +60,4 @@ function printResult(gameResult) {
     console.log("It's a draw!");
   }
   console.log('');
-  notifyClient(gameResult);
 }
