@@ -3,6 +3,9 @@ var main = function() {
 
   socket.on('message', function(results) {
     results.forEach(result => {
+
+      document.getElementById("tictactoe").innerHTML = '';
+
       var titles = createResult(result);
       create(titles, result);
     });
