@@ -1,9 +1,21 @@
 var MultiTicTacToe = require('./multitictactoe');
 var multiTicTacToe = new MultiTicTacToe();
 
-multiTicTacToe.play()
-  .then(handleResult)
-  .catch(console.log);
+
+// update player confs via github
+
+setTimeout(trigger, 0);
+
+function trigger() {
+  multiTicTacToe.play()
+    .then(handleResult)
+    .catch(console.log)
+    .then(reschedule);
+}
+
+function reschedule() {
+  setTimeout(trigger, 10000);
+}
 
 function handleResult(result) {
   result.forEach(each => {
