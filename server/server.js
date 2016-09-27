@@ -2,26 +2,47 @@ var confLoader = require('./conf_loader').load;
 var Game = require('./game');
 var Player = require('./player');
 
-confLoader().then(createGames).then(function(result) {
+Array.prototype.shuffle = function() {
+    var input = this;
+    for (var i = input.length-1; i >=0; i--) {
+        var randomIndex = Math.floor(Math.random()*(i+1));
+        var itemAtIndex = input[randomIndex];
+        input[randomIndex] = input[i];
+        input[i] = itemAtIndex;
+    }
+    return input;
+}
+
+confLoader()
+  .then(createGames)
+  .then(handleResult)
+  .catch(console.log);
+
+function handleResult(result) {
   result.forEach(each => {
-    console.log(each.players[0].conf.name + ' vs ' + each.players[1].conf.name);
-
-    var boardState = each.board.getState();
-    console.log(boardState.slice(0, 3));
-    console.log(boardState.slice(3, 6));
-    console.log(boardState.slice(6, 9));
-
-    if (each.type === "win") {
-      console.log("Winner: " + each.winner.conf.name);
-    }
-
-    if (each.type === "draw") {
-      console.log("It's a draw!");
-    }
-
-    console.log('');
+    printResult(each);
   });
-}).catch(console.log);
+}
+
+function printResult(gameResult) {
+  var boardState = gameResult.board.getState();
+  var p1 = gameResult.players[0];
+  var p2 = gameResult.players[0];
+
+  console.log(p1.conf.name + ' vs ' + p2.conf.name);
+  console.log(boardState.slice(0, 3));
+  console.log(boardState.slice(3, 6));
+  console.log(boardState.slice(6, 9));
+
+  if (gameResult.type === "win") {
+    console.log("Winner: " + gameResult.winner.conf.name);
+  }
+
+  if (gameResult.type === "draw") {
+    console.log("It's a draw!");
+  }
+  console.log('');
+}
 
 function createGames(confs) {
   var matches = [];
@@ -30,13 +51,13 @@ function createGames(confs) {
       matches.push(play(confs[i], confs[j]));
     }
   }
-
   return Promise.all(matches);
 }
 
 function play(conf1, conf2) {
   var game = new Game();
-  var p1 = new Player(conf1, "O");
-  var p2 = new Player(conf2, "X");
+  var playerKeys = ["0", "X"].shuffle();
+  var p1 = new Player(conf1, playerKeys[0]);
+  var p2 = new Player(conf2, playerKeys[1]);
   return game.play(p1, p2);
 }

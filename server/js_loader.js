@@ -4,6 +4,6 @@ module.exports = {
 
 var command = require('./command').run;
 
-function load(path, board) {
-  return command("node", [ path, board.getState().toString() ]);
+function load(path, board, playerKey) {
+  return command("node", [ path, board.getState().toString(), playerKey ]);
 }

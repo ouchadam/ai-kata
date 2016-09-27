@@ -4,9 +4,9 @@ module.exports = {
 
 var command = require('./command').run;
 
-function load(path, board) {
+function load(path, board, playerKey) {
   var classpath = path.replace('Main.class', '');
   return command("java",
-    [ '-classpath', classpath, "Main", board.getState().toString() ]
+    [ '-classpath', classpath, "Main", board.getState().toString(), playerKey ]
   );
 }

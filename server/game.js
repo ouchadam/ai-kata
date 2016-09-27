@@ -5,7 +5,11 @@ function Game() {}
 Game.prototype.play = function(playerOne, playerTwo) {
   var players = [playerOne, playerTwo];
   var board = new Board();
-  return loop(board, players, 0);
+  return loop(board, players, findFirstPlayer(players));
+}
+
+function findFirstPlayer(players) {
+  return players.map(player => player.playerKey).indexOf("X");
 }
 
 function loop(board, players, currentPlayer) {

@@ -14,7 +14,11 @@ function run(cmd, args) {
 
     child.stdout.on('data', function (buffer) { result += buffer.toString() });
     child.stdout.on('end', function() {
-      resolve(result.trim())
+      resolve(parse(result));
     });
   });
+}
+
+function parse(input) {
+  return input.trim();
 }

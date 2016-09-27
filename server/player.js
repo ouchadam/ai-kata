@@ -7,7 +7,7 @@ function Player(conf, playerKey) {
 
 Player.prototype.makeMove = function(board) {
   var self = this;
-  return getMove(this.conf, board)
+  return getMove(this.conf, board, this.playerKey)
     .then(function(movePosition) {
       return Promise.resolve( {
         position: movePosition,
