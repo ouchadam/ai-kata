@@ -2,10 +2,9 @@ var main = function() {
   var socket = io();
 
   socket.on('message', function(results) {
+    document.getElementById("tictactoe").innerHTML = '';
+
     results.forEach(result => {
-
-      document.getElementById("tictactoe").innerHTML = '';
-
       var titles = createResult(result);
       create(titles, result);
     });

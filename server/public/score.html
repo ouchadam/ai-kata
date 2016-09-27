@@ -1,0 +1,22 @@
+<html>
+
+  <head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+
+    var socket = io();
+
+    socket.on('score', function(score) {
+      // TODO
+      document.getElementById("scoreboard");
+      console.log(score);
+    });
+    </script>
+  </head>
+
+  <body>
+    scoreboard
+    <div id="scoreboard"></div>
+  </body>
+
+</html>

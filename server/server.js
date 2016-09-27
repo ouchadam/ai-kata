@@ -6,13 +6,25 @@ var express = require('express');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+var cache = {};
+var scoreboard = {};
+
 app.use("/public", express.static(__dirname + '/public'));
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/public/index.html');
 });
+
+app.get('/score', function(req, res){
+  res.sendFile(__dirname + '/public/score.html');
+});
+
+app.get('/admin', function(req, res){
+  res.sendFile(__dirname + '/public/admin.html');
+});
+
 app.get('/start', function (req, res) {
   trigger();
-  res.send(200);
+  res.sendStatus(200);
 });
 
 http.listen(3001, function(){
@@ -20,11 +32,22 @@ http.listen(3001, function(){
 });
 
 var notifyClient = function(data) {
+  cache.boards = data;
   io.emit('message', data);
 }
 
-io.sockets.on('start', function (socket) {
-  // todo
+var notifyScore = function(data) {
+  cache.score = data;
+  io.emit('score', data);
+}
+
+io.sockets.on('connection', function (socket) {
+  if (cache.boards) {
+    notifyClient(cache.boards);
+  }
+  if (cache.score) {
+    notifyScore(cache.score);
+  }
 });
 
 // update player confs via github
@@ -39,8 +62,30 @@ function handleResult(results) {
   notifyClient(results);
 
   results.forEach(each => {
-    printResult(each);
+
+    if (each.type === 'win') {
+      updateScore(each.winner.conf, 2);
+    } else if (each.type === 'draw') {
+      updateScore(each.players[0].conf, 1);
+      updateScore(each.players[1].conf, 1);
+    } else {
+      // update loser
+    }
+    updateScore(each.players[0].conf, 0);
+    updateScore(each.players[1].conf, 0);
+
+    // printResult(each);
   });
+  console.log(scoreboard);
+  notifyScore(scoreboard);
+}
+
+function updateScore(conf, amount) {
+  if (!scoreboard[conf.name]) {
+    scoreboard[conf.name] = 0;
+  }
+
+  scoreboard[conf.name] = scoreboard[conf.name] + amount;
 }
 
 function printResult(gameResult) {
