@@ -11,7 +11,7 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/public/index.html');
 });
 app.get('/start', function (req, res) {
-  setTimeout(trigger, 0);
+  trigger();
 });
 
 http.listen(3001, function(){
@@ -33,10 +33,6 @@ function trigger() {
     .then(handleResult)
     .catch(console.log)
     .then(reschedule);
-}
-
-function reschedule() {
-  setTimeout(trigger, 5000);
 }
 
 function handleResult(result) {
