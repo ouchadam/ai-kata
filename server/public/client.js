@@ -31,30 +31,26 @@ function createResult(gameResult) {
 }
 
 function create(titles, result) {
-  var board = document.createElement("table"),
-      indicator = 1,
-      i, j,
-      row, cell,
-      parent;
+  var board = document.createElement("table");
   board.border = 1;
-  for (i = 0; i < 3; i += 1) {
-      row = document.createElement("tr");
-      board.appendChild(row);
-      for (j = 0; j < 3; j += 1) {
-          cell = document.createElement("td");
-          cell.width = cell.height = 50;
-          cell.align = cell.valign = 'center';
-          cell.indicator = indicator;
-          var cellResult = result.board.state[j + (i * 3)];
+  var indicator = 1;
+  for (var i = 0; i < 3; i += 1) {
+    var row = document.createElement("tr");
+    board.appendChild(row);
+    for (var j = 0; j < 3; j += 1) {
+      var cell = document.createElement("td");
+      cell.width = cell.height = 50;
+      cell.align = cell.valign = 'center';
+      cell.indicator = indicator;
+      var cellResult = result.board.state[j + (i * 3)];
 
-          cell.appendChild(document.createTextNode(cellResult));
-          row.appendChild(cell);
-          indicator += indicator;
-      }
+      cell.appendChild(document.createTextNode(cellResult));
+      row.appendChild(cell);
+      indicator += indicator;
+    }
   }
 
-  parent = document.getElementById("tictactoe") || document.body;
-
+  var parent = document.getElementById("tictactoe");
   parent.appendChild(createP(titles.title));
   parent.appendChild(board);
   parent.appendChild(createP(titles.message));

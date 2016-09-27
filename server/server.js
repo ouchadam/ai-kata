@@ -12,6 +12,7 @@ app.get('/', function(req, res){
 });
 app.get('/start', function (req, res) {
   trigger();
+  res.send(200);
 });
 
 http.listen(3001, function(){
