@@ -48,7 +48,7 @@ function handleResult(result) {
 function printResult(gameResult) {
   var boardState = gameResult.board.getState();
   var p1 = gameResult.players[0];
-  var p2 = gameResult.players[0];
+  var p2 = gameResult.players[1];
 
   console.log(p1.conf.name + ' vs ' + p2.conf.name);
   console.log(boardState.slice(0, 3));
