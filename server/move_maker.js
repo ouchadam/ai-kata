@@ -1,5 +1,5 @@
-var nodeLoader = require('./js_loader').load;
-var javaLoader = require('./class_loader').load;
+var nodeLoader = require('./codeloaders/node_loader').load;
+var javaLoader = require('./codeloaders/java_loader').load;
 
 function getMove(loadedPlayer, board) {
    return getLoader(loadedPlayer)(`../players/${loadedPlayer.path}`, board);
