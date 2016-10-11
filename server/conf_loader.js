@@ -22,7 +22,7 @@ function onlyConf(filenames) {
 
 function loadObjects(confFilenames) {
   var mapped = confFilenames.map(function(filename) {
-    return file.read(DIRECTORY, filename);
+    return file.readFile(DIRECTORY, filename);
   });
   return Promise.all(mapped);
 }

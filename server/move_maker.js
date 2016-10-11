@@ -6,10 +6,10 @@ function getMove(loadedPlayer, board) {
 }
 
 function getLoader(player) {
-  if (player.path.endsWith('.js')) {
+  if (player.language === 'javascript') {
     return nodeLoader;
   }
-  if (player.path.endsWith(".class")) {
+  if (player.language.endsWith("java")) {
     return javaLoader;
   }
   throw err;

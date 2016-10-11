@@ -20,4 +20,8 @@ Player.prototype.getName = function() {
   return this.conf.name;
 }
 
+Player.prototype.getLanguage = function() {
+  return this.conf.language;
+}
+
 module.exports = Player;

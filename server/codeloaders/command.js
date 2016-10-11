@@ -4,6 +4,7 @@ module.exports = {
 
 function run(cmd, args) {
   return new Promise(function(resolve, reject) {
+    console.log("exec: " + cmd + ' with : ' + args);
     var spawn = require('child_process').spawn;
     var child = spawn(cmd, args);
     var result = "";

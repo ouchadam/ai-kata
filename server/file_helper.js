@@ -5,9 +5,9 @@ module.exports = {
   readFile: readFile
 }
 
-function getFilesInDirectory() {
+function getFilesInDirectory(path) {
   return new Promise(function(resolve, reject) {
-    fs.readdir(DIRECTORY, function(err, filenames) {
+    fs.readdir(path, function(err, filenames) {
       if (err) {
         reject(err);
       } else {
