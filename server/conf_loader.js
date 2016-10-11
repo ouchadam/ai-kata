@@ -1,4 +1,4 @@
-const fs = require('fs');
+const file = require('./file_helper');
 const DIRECTORY = '../players/';
 
 module.exports = {
@@ -6,21 +6,9 @@ module.exports = {
 }
 
 function load() {
-  return getFileNames()
+  return file.getFilesInDirectory(DIRECTORY)
     .then(onlyConf)
     .then(loadObjects);
-}
-
-function getFileNames(path) {
-  return new Promise(function(resolve, reject) {
-    fs.readdir(DIRECTORY, function(err, filenames) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(filenames);
-      }
-    });
-  });
 }
 
 function onlyConf(filenames) {
@@ -34,19 +22,7 @@ function onlyConf(filenames) {
 
 function loadObjects(confFilenames) {
   var mapped = confFilenames.map(function(filename) {
-    return loadPlayer(filename);
+    return file.read(DIRECTORY, filename);
   });
   return Promise.all(mapped);
-}
-
-function loadPlayer(filename) {
-  return new Promise(function(resolve, reject) {
-    fs.readFile(DIRECTORY + '/'+ filename, 'utf-8', function(err, content) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(JSON.parse(content));
-      }
-    });
-  });
 }
