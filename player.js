@@ -16,6 +16,11 @@ Player.prototype.makeMove = function(board) {
   });
 }
 
+function convertToInteger(loadedPosition) {
+  var result = Number.parse(loadedPosition);
+  return result === NaN ? -1 : result ;
+}
+
 Player.prototype.getName = function() {
   return this.conf.name;
 }

@@ -25,6 +25,7 @@ function createGames(confs) {
   for (var i = 0; i < confs.length; i++) {
     for (var j = i+1; j < confs.length; j++) {
       matches.push(game(confs[i], confs[j]));
+      matches.push(game(confs[j], confs[i]));
     }
   }
   var results = [];
@@ -49,7 +50,7 @@ function game(confOne, confTwo) {
 
 function play(conf1, conf2) {
   var game = new Game();
-  var playerKeys = ["0", "X"].shuffle();
+  var playerKeys = ["X", "0"];
   var p1 = new Player(conf1, playerKeys[0]);
   var p2 = new Player(conf2, playerKeys[1]);
   return game.play(p1, p2);
