@@ -1,6 +1,6 @@
 node_modules/
-.o
-.class
-.jar
-.hi
+*.o
+*.class
+*.jar
+*.hi
 main
