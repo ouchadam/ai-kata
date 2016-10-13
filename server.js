@@ -81,7 +81,6 @@ function handleResult(results) {
       updateScore(each.players[1].conf, 1);
     } else {
       updateScore(each.winner.conf, -1);
-      // update loser
     }
     updateScore(each.players[0].conf, 0);
     updateScore(each.players[1].conf, 0);

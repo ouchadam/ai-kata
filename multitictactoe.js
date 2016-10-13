@@ -24,10 +24,27 @@ function createGames(confs) {
   var matches = [];
   for (var i = 0; i < confs.length; i++) {
     for (var j = i+1; j < confs.length; j++) {
-      matches.push(play(confs[i], confs[j]));
+      matches.push(game(confs[i], confs[j]));
     }
   }
-  return Promise.all(matches);
+  var results = [];
+  return matches.reduce(function(promise, game) {
+    return promise.then(function(result) {
+      if (result) {
+        results.push(result);
+      }
+      return play(game.confOne, game.confTwo);
+    });
+  }, Promise.resolve()).then(function() {
+    return Promise.resolve(results);
+  });
+}
+
+function game(confOne, confTwo) {
+  return {
+    confOne: confOne,
+    confTwo: confTwo
+  };
 }
 
 function play(conf1, conf2) {

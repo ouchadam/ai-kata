@@ -10,19 +10,15 @@ function load(path, board, playerKey) {
     .then(filterCompiled)
     .then(filenames => {
       var flattenedFileNames = flattenFileNames(path, filenames);
-      return command("swiftc", [ flattenedFileNames ]).then(() => {
-        return command("rm", [path + "main"]).then(() => {
-          return command("mv", [ './main', path]).then(() => {
-            return command(path + "main", [ board.getState().toString(), playerKey ]);
-          });
-        });
+      return command("ghc", [ flattenedFileNames, '-tmpdir', path ]).then(() => {
+        return command(path + "main", [ board.getState().toString(), playerKey ]);
       });
     });
 }
 
 function filterCompiled(filenames) {
   return Promise.resolve(filenames.filter(filename => {
-      return filename.endsWith('.swift');
+      return filename.endsWith('.hs');
   }));
 }
 
