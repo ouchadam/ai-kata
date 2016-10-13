@@ -4,8 +4,8 @@ var swiftLoader = require('./codeloaders/swift_loader').load;
 var kotlinLoader = require('./codeloaders/kotlin_loader').load;
 var haskellLoader = require('./codeloaders/haskell_loader').load;
 
-function getMove(loadedPlayer, board) {
-   return getLoader(loadedPlayer)(`${__dirname}/players/${loadedPlayer.path}`, board);
+function getMove(loadedPlayer, board, playerKey) {
+   return getLoader(loadedPlayer)(`${__dirname}/players/${loadedPlayer.path}`, board, playerKey);
 }
 
 function getLoader(player) {
