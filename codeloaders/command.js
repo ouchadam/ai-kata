@@ -11,11 +11,13 @@ function run(cmd, args) {
 
     child.stderr.on('data', (data) => {
       var buff = new Buffer(data);
+      child.exitCode = 1;
       reject(buff);
     });
 
     child.stdout.on('data', function (buffer) { result += buffer.toString() });
     child.stdout.on('end', function() {
+      child.exitCode = 1;
       resolve(parse(result));
     });
   });
