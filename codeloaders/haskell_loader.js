@@ -11,7 +11,7 @@ function load(path, board, playerKey) {
     .then(filenames => {
       var flattenedFileNames = flattenFileNames(path, filenames);
       return command("ghc", [ flattenedFileNames, '-tmpdir', path ]).then(() => {
-        return command(path + "main", [ board.getState().toString(), playerKey ]);
+        return command(path + "Main", [ board.getState().toString(), playerKey ]);
       });
     });
 }

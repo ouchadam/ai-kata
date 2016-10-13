@@ -74,6 +74,8 @@ function handleResult(results) {
 
   results.forEach(each => {
 
+    console.log(each);
+
     if (each.type === 'win') {
       updateScore(each.winner.conf, 2);
     } else if (each.type === 'draw') {

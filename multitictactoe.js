@@ -22,12 +22,27 @@ MultiTicTacToe.prototype.play = function() {
 
 function createGames(confs) {
   var matches = [];
-  for (var i = 0; i < confs.length; i++) {
-    for (var j = i+1; j < confs.length; j++) {
-      matches.push(game(confs[i], confs[j]));
-      matches.push(game(confs[j], confs[i]));
-    }
-  }
+
+  confs.forEach(outer => {
+    confs.forEach(inner => {
+      if (outer === inner) {
+        return;
+      }
+
+      var variantOne = game(outer, inner);
+      var variantTwo = game(inner, outer);
+
+      if (matches.indexOf(variantOne) === -1) {
+        matches.push(variantOne);
+      }
+
+      if (matches.indexOf(variantTwo) === -1) {
+        matches.push(variantTwo);
+      }
+
+    });
+  });
+
   var results = [];
   return matches.reduce(function(promise, game) {
     return promise.then(function(result) {
@@ -36,7 +51,8 @@ function createGames(confs) {
       }
       return play(game.confOne, game.confTwo);
     });
-  }, Promise.resolve()).then(function() {
+  }, Promise.resolve()).then(function(result) {
+      results.push(result);
     return Promise.resolve(results);
   });
 }

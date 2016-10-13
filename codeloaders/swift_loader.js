@@ -11,9 +11,9 @@ function load(path, board, playerKey) {
     .then(filenames => {
       var flattenedFileNames = flattenFileNames(path, filenames);
       return command("swiftc", [ flattenedFileNames ]).then(() => {
-        return command("rm", [path + "main"]).then(() => {
-          return command("mv", [ './main', path]).then(() => {
-            return command(path + "main", [ board.getState().toString(), playerKey ]);
+        return command("rm", [path + "Main"]).then(() => {
+          return command("mv", [ './Main', path]).then(() => {
+            return command(path + "Main", [ board.getState().toString(), playerKey ]);
           });
         });
       });
