@@ -30,36 +30,30 @@ function createGames(confs) {
       }
       return play(game.confOne, game.confTwo);
     });
-  }, Promise.resolve()).then(function(result) {
+  }, Promise.resolve())
+  .then(result => {
       results.push(result);
-    return Promise.resolve(results);
+      return Promise.resolve(results);
   });
 }
 
 function generateMatches(confs) {
   var matches = [];
-  var seen = {};
-
   confs.forEach(outer => {
     confs.forEach(inner => {
       if (outer === inner) {
         return;
       }
-      var variantOne = game(outer, inner);
-      var variantTwo = game(inner, outer);
-
-      if (!seen[variantOne.confOne.name + " vs " + variantOne.confTwo.name]) {
-        matches.push(variantOne);
-        seen[variantOne.confOne.name + " vs " + variantOne.confTwo.name] = true;
-      }
-
-      if (!seen[variantTwo.confOne.name + " vs " + variantTwo.confTwo.name]) {
-        matches.push(variantTwo);
-        seen[variantTwo.confOne.name + " vs " + variantTwo.confTwo.name] = true;
-      }
+      matches.push(game(outer, inner));
+      matches.push(game(inner, outer));
     });
   });
-  return matches;
+
+  var seen = {};
+  return matches.filter(each => {
+    var key = JSON.stringify(each);
+    return seen[key] ? false : (seen[key] = true, true);
+  });
 }
 
 function game(confOne, confTwo) {
