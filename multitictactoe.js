@@ -21,28 +21,7 @@ MultiTicTacToe.prototype.play = function() {
 }
 
 function createGames(confs) {
-  var matches = [];
-
-  confs.forEach(outer => {
-    confs.forEach(inner => {
-      if (outer === inner) {
-        return;
-      }
-
-      var variantOne = game(outer, inner);
-      var variantTwo = game(inner, outer);
-
-      if (matches.indexOf(variantOne) === -1) {
-        matches.push(variantOne);
-      }
-
-      if (matches.indexOf(variantTwo) === -1) {
-        matches.push(variantTwo);
-      }
-
-    });
-  });
-
+  var matches = generateMatches(confs);
   var results = [];
   return matches.reduce(function(promise, game) {
     return promise.then(function(result) {
@@ -55,6 +34,32 @@ function createGames(confs) {
       results.push(result);
     return Promise.resolve(results);
   });
+}
+
+function generateMatches(confs) {
+  var matches = [];
+  var seen = {};
+
+  confs.forEach(outer => {
+    confs.forEach(inner => {
+      if (outer === inner) {
+        return;
+      }
+      var variantOne = game(outer, inner);
+      var variantTwo = game(inner, outer);
+
+      if (!seen[variantOne.confOne.name + " vs " + variantOne.confTwo.name]) {
+        matches.push(variantOne);
+        seen[variantOne.confOne.name + " vs " + variantOne.confTwo.name] = true;
+      }
+
+      if (!seen[variantTwo.confOne.name + " vs " + variantTwo.confTwo.name]) {
+        matches.push(variantTwo);
+        seen[variantTwo.confOne.name + " vs " + variantTwo.confTwo.name] = true;
+      }
+    });
+  });
+  return matches;
 }
 
 function game(confOne, confTwo) {
